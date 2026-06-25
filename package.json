@@ -1,0 +1,26 @@
+{
+  "name": "atelierdoc-v2-premium",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "firebase": "^11.0.0",
+    "lucide-react": "^0.468.0",
+    "qrcode.react": "^4.1.0",
+    "xlsx": "^0.18.5",
+    "docx": "^8.5.0",
+    "jspdf": "^2.5.2",
+    "jszip": "^3.10.1",
+    "file-saver": "^2.0.5"
+  },
+  "devDependencies": {}
+}

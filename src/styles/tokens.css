@@ -1,0 +1,19 @@
+:root{
+  --cream:#F8F9F7;
+  --bg:#F5F6F4;
+  --surface:#FFFFFF;
+  --surface-soft:#F0F3F1;
+  --ink:#172033;
+  --muted:#667085;
+  --line:#E2E7E3;
+  --night:#17263B;
+  --sage:#6F8F7A;
+  --sage-dark:#587664;
+  --gold:#C5A15A;
+  --danger:#B5474A;
+  --shadow:0 22px 70px rgba(23,38,59,.08);
+  --shadow-soft:0 10px 30px rgba(23,38,59,.055);
+  --r-sm:12px;
+  --r-md:18px;
+  --r-lg:28px;
+}

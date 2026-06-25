@@ -1,0 +1,391 @@
+/* =======================================================
+   CLASSIFICATION V3
+======================================================= */
+
+.classificationWorkspace{
+
+    display:grid;
+    grid-template-columns:320px 1fr 340px;
+    gap:24px;
+    align-items:start;
+
+}
+
+/* ==========================================
+DOCUMENTS
+========================================== */
+
+.documentRail{
+
+    background:#fff;
+    border:1px solid #e7edf3;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(15,23,42,.05);
+    display:flex;
+    flex-direction:column;
+    min-height:700px;
+
+}
+
+.railHeader{
+
+    margin-bottom:20px;
+
+}
+
+.railHeader h3{
+
+    margin:0;
+
+}
+
+.railHeader small{
+
+    color:#64748b;
+
+}
+
+.railBody{
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+}
+
+.documentItem{
+
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+
+    width:100%;
+
+    border:none;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.documentItem:hover{
+
+    background:#f5f8fb;
+
+}
+
+.documentItem.active{
+
+    background:#dff6ef;
+
+}
+
+.documentInfos{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.documentInfos strong{
+
+    font-size:14px;
+
+}
+
+.documentInfos span{
+
+    font-size:12px;
+
+    color:#64748b;
+
+}
+
+/* ==========================================
+PLAN DE CLASSEMENT
+========================================== */
+
+.folderTree{
+
+    background:white;
+
+    border:1px solid #e7edf3;
+
+    border-radius:18px;
+
+    padding:24px;
+
+    min-height:700px;
+
+    box-shadow:0 10px 25px rgba(15,23,42,.05);
+
+}
+
+.treeHeader{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.treeToolbar{
+
+    margin-bottom:20px;
+
+}
+
+.treeBody{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.treeNode{
+
+    margin-left:12px;
+
+}
+
+.treeItem{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.treeItem:hover{
+
+    background:#f5f8fb;
+
+}
+
+.treeItem.active{
+
+    background:#dff6ef;
+
+}
+
+.treeItem strong{
+
+    flex:1;
+
+}
+
+.treeItem small{
+
+    color:#64748b;
+
+}
+
+.deleteFolder{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    color:#ef4444;
+
+}
+
+.treeChildren{
+
+    margin-left:24px;
+
+    margin-top:6px;
+
+}
+
+.treeEmpty{
+
+    text-align:center;
+
+    padding:80px 20px;
+
+    color:#64748b;
+
+}
+
+/* ==========================================
+PROPRIETES
+========================================== */
+
+.folderProperties{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.folderForm{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    margin-top:20px;
+
+}
+
+.folderForm label{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.folderForm input,
+.folderForm textarea{
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #d9e2ea;
+
+}
+
+/* ==========================================
+DIALOG
+========================================== */
+
+.folderDialog{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:1000;
+
+}
+
+.folderDialogContent{
+
+    background:white;
+
+    width:420px;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.folderDialogContent h3{
+
+    margin-top:0;
+
+}
+
+.folderDialogContent input{
+
+    width:100%;
+
+    margin:18px 0;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #d9e2ea;
+
+}
+
+.dialogButtons{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+}
+
+/* ==========================================
+RESPONSIVE
+========================================== */
+
+@media(max-width:1200px){
+
+.classificationWorkspace{
+
+    grid-template-columns:1fr;
+
+}
+
+.documentRail,
+.folderTree,
+.folderProperties{
+
+    min-height:auto;
+
+}
+
+.assignmentHint{
+margin:0 0 20px;
+padding:14px;
+border-radius:14px;
+background:#f8fafc;
+border:1px solid #e7edf3;
+display:grid;
+gap:4px;
+}
+
+.assignmentHint span{
+font-size:12px;
+color:#64748b;
+}
+
+.assignmentHint strong{
+font-size:14px;
+color:#16302a;
+}
+
+
+}
