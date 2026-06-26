@@ -10,12 +10,15 @@ export function Documents({ state, api }) {
   const [form, setForm] = useState(empty);
   const [editing, setEditing] = useState("");
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState("form");
+  const [bulkList, setBulkList] = useState("");
   const docs = list(state.documents).sort((a,b)=>(a.order||0)-(b.order||0));
 
   function startEdit(d) {
     setEditing(d.id);
     setForm({ ...empty, ...d });
     setOpen(true);
+    setMode("form");
   }
 
   async function save() {
@@ -25,15 +28,46 @@ export function Documents({ state, api }) {
     setForm(empty); setEditing(""); setOpen(false);
   }
 
+  async function importList() {
+    const names = bulkList
+      .split("\n")
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    for (const name of names) {
+      await api.createDocument({ ...empty, name });
+    }
+
+    setBulkList("");
+    setOpen(false);
+    setMode("form");
+  }
+
   return (
     <div className="page">
       <header className="pageHeader">
         <div><span className="eyebrow">Référentiel documentaire</span><h1>Documents</h1><p>Ajoutez, modifiez ou supprimez les documents de l’atelier.</p></div>
-        <Button variant="primary" onClick={() => { setOpen(!open); setEditing(""); setForm(empty); }}>+ Nouveau document</Button>
+        <Button variant="primary" onClick={() => { setOpen(!open); setEditing(""); setForm(empty); setMode("form"); }}>+ Nouveau document</Button>
       </header>
 
       {open && (
         <Card className="formCard">
+          <div className="documentModeTabs">
+            <button className={mode === "form" ? "active" : ""} onClick={() => setMode("form")}>Créer / modifier un document</button>
+            {!editing && <button className={mode === "list" ? "active" : ""} onClick={() => setMode("list")}>Importer une liste de noms</button>}
+          </div>
+
+          {mode === "list" && !editing ? (
+            <div className="listImportBox">
+              <p className="muted">Collez une liste : une ligne = un document. Aucun fichier n’est obligatoire.</p>
+              <textarea value={bulkList} onChange={e=>setBulkList(e.target.value)} placeholder={"Projet médical\nLivret d’accueil\nProcédure admission\nCharte qualité"} />
+              <div className="inlineActions">
+                <Button variant="primary" onClick={importList} disabled={!bulkList.trim()}>Créer les documents</Button>
+                <Button onClick={() => { setOpen(false); setBulkList(""); }}>Annuler</Button>
+              </div>
+            </div>
+          ) : (
+          <>
           <div className="formGrid">
             <input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Nom du document" />
             <select value={form.family} onChange={e=>setForm({...form,family:e.target.value})}>{DOCUMENT_FAMILIES.map(f => <option key={f}>{f}</option>)}</select>
@@ -53,6 +87,8 @@ export function Documents({ state, api }) {
             <Button variant="primary" onClick={save}>{editing ? "Enregistrer" : "Créer le document"}</Button>
             <Button onClick={() => { setOpen(false); setEditing(""); setForm(empty); }}>Annuler</Button>
           </div>
+          </>
+          )}
         </Card>
       )}
 
@@ -61,6 +97,9 @@ export function Documents({ state, api }) {
           <table className="premiumTable">
             <thead><tr><th>Document</th><th>Famille</th><th>Autorité</th><th>Conservation</th><th>Classement</th><th>Décision</th><th>Actions</th></tr></thead>
             <tbody>
+              {!docs.length && (
+                <tr><td colSpan="7" className="emptyState"><b>Aucun document</b>Ajoutez un document ou importez une liste de noms pour démarrer l’atelier.</td></tr>
+              )}
               {docs.map(d => (
                 <tr key={d.id}>
                   <td><b>{d.name}</b><small>{d.stage}</small></td>

@@ -63,7 +63,12 @@ const groups = [
   }
 ];
 
+const pageLabels = Object.fromEntries(groups.flatMap((group) => group.items.map(([id, label]) => [id, label])));
+
 export function Shell({ page, setPage, children }) {
+  const canGoBack = page !== "home";
+  const currentLabel = pageLabels[page] || "Atelier";
+
   return (
     <div className="shell">
 
@@ -133,6 +138,19 @@ export function Shell({ page, setPage, children }) {
       </aside>
 
       <main className="main">
+
+        {canGoBack && (
+          <div className="returnBar" aria-label="Navigation de retour">
+            <button type="button" className="returnButton" onClick={() => setPage("home")}>
+              <span aria-hidden="true">←</span>
+              <span>Retour</span>
+            </button>
+            <div className="returnContext">
+              <span>Vous êtes dans</span>
+              <strong>{currentLabel}</strong>
+            </div>
+          </div>
+        )}
 
         {children}
 

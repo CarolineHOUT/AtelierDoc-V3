@@ -1,45 +1,27 @@
-# AtelierDoc V2 Premium
+# AtelierDoc — V3 Sprint 1 sécurisé
 
-Socle premium d'AtelierDoc : identité visuelle, design system, navigation produit, Firebase temps réel, projection, mobile, documents et livrables.
+Base : V2 premium conservée, sans refonte destructrice.
 
-## Démarrage
+## Ajouts Sprint 1
 
-```powershell
+- Atelier vide par défaut : les documents de démonstration ne sont plus injectés dans un nouvel atelier.
+- Ajout de documents sans fichier : un titre suffit.
+- Import d’une liste de noms : une ligne = un document.
+- Réinitialisation sélective depuis Paramètres : votes, commentaires, participants, parking, ordre/classement, plan de classement, décisions, documents ou tout l’atelier.
+- Duplication en copie de travail : documents et paramètres conservés, contributions et décisions remises à zéro.
+- Sécurisation des vues atelier/mobile/projection quand aucun document n’existe.
+
+## Installation
+
+```bash
 npm install
 npm run dev
 ```
 
-## Déploiement Vercel
+## Production
 
-- Framework : Vite
-- Build command : `npm run build`
-- Output directory : `dist`
-- Deployment Protection : désactivée si QR public
-
-## Vues directes
-
-- Application : `/`
-- Projection : `/?view=projection`
-- Téléphone : `/?view=mobile`
-
-## Firebase
-
-Chemin de données :
-
-```text
-atelierdocV2/workshops/atelierdoc-v2-ase-2026
+```bash
+npm run build
 ```
 
-## Inclus
-
-- Nouveau logo SVG AtelierDoc
-- Palette premium
-- Navigation par cycle métier : Préparer / Animer / Clôturer
-- Accueil premium
-- Tableau de pilotage
-- Conduite de l'atelier
-- Projection premium
-- Mobile premium
-- Ajout / modification / suppression documents
-- Statistiques automatiques
-- Exports Word / PDF / Excel / ZIP
+Le build de vérification a été exécuté avec succès.

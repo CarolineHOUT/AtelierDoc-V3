@@ -12,9 +12,9 @@ export function Mobile({ state, api }) {
   const [user, setUser] = useState(readUser);
   const [remark, setRemark] = useState("");
   const [panel, setPanel] = useState("");
-  const active = state.documents[state.meta.activeDocumentId] || Object.values(state.documents)[0];
-  const counts = voteCounts(state, active.id);
-  const current = user ? state.votes?.[`${active.id}_${user.id}`]?.value : "";
+  const active = state.documents?.[state.meta.activeDocumentId] || Object.values(state.documents || {})[0];
+  const counts = active ? voteCounts(state, active.id) : {};
+  const current = user && active ? state.votes?.[`${active.id}_${user.id}`]?.value : "";
 
   function back() {
     const url = new URL(window.location.href);
@@ -46,6 +46,19 @@ export function Mobile({ state, api }) {
             <input name="function" placeholder="Fonction / service" />
             <button>Rejoindre</button>
           </form>
+        </section>
+      </main>
+    );
+  }
+
+  if (!active) {
+    return (
+      <main className="mobileApp">
+        <button className="mobileBack" onClick={back}>← Retour</button>
+        <section className="mobileLogin">
+          <AtelierDocLogo />
+          <h1>Atelier en préparation</h1>
+          <p>Aucun document n’est encore disponible pour le vote.</p>
         </section>
       </main>
     );

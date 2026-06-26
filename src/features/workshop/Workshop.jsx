@@ -9,8 +9,20 @@ export function Workshop({ state, api }) {
   const [remark, setRemark] = useState("");
   const [justification, setJustification] = useState("");
   const docs = useMemo(() => list(state.documents).sort((a,b)=>(a.order||0)-(b.order||0)), [state.documents]);
-  const active = state.documents[state.meta.activeDocumentId] || docs[0];
+  const active = state.documents?.[state.meta.activeDocumentId] || docs[0];
   const filtered = docs.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
+
+  if (!active) {
+    return (
+      <div className="page">
+        <header className="pageHeader">
+          <div><span className="eyebrow">Animation atelier</span><h1>Aucun document</h1><p>Ajoutez des documents avant de lancer l’animation.</p></div>
+        </header>
+        <Card className="emptyState"><b>Atelier vide</b>Créez un document ou importez une liste de noms dans l’onglet Documents.</Card>
+      </div>
+    );
+  }
+
   const counts = voteCounts(state, active.id);
   const comments = commentsFor(state, active.id).reverse();
 

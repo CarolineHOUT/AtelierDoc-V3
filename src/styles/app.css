@@ -32,3 +32,58 @@ textarea{min-height:104px;resize:vertical}
 
 /* V5 classification builder + formalism */
 .twoCards{display:grid;grid-template-columns:1fr 1fr;gap:16px}.folderBuilder{display:grid;grid-template-columns:.7fr 1fr 1fr auto;gap:10px;margin-top:14px}.folderList{display:grid;gap:8px;margin-top:16px;max-height:300px;overflow:auto}.folderList article{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--surface-soft);border:1px solid var(--line);border-radius:16px;padding:10px 12px}.folderList article div{display:grid;gap:2px;min-width:0}.folderList b{color:var(--sage-dark)}.folderList span{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis}.folderList button{border:0;background:transparent;color:var(--danger);font-weight:850}.singleGrid{grid-template-columns:1fr}.formGrid textarea{width:100%;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit;resize:vertical;background:white}@media(max-width:1100px){.twoCards{grid-template-columns:1fr}.folderBuilder{grid-template-columns:1fr}}
+
+/* Sprint V3.1 — administration atelier sans régression */
+.settingsGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}.dangerZone{border-color:rgba(190,53,53,.28);background:linear-gradient(135deg,#fff,#fff7f7)}.resetChecklist{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:8px 0 4px}.resetChecklist label{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-weight:850}.resetChecklist input{width:auto}.resetChecklist .resetAll{grid-column:1/-1;border-color:rgba(190,53,53,.32);color:var(--danger)}.btn.danger{background:var(--danger);border-color:var(--danger);color:white}.btn:disabled{opacity:.48;cursor:not-allowed}.emptyState{padding:34px;text-align:center;color:var(--muted)}.emptyState b{display:block;color:var(--night);font-size:22px;margin-bottom:6px}.listImportBox{display:grid;gap:10px;margin-top:12px}.listImportBox textarea{min-height:140px}.documentModeTabs{display:flex;gap:10px;flex-wrap:wrap}.documentModeTabs button{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px;font-weight:850}.documentModeTabs button.active{background:var(--night);color:white}@media(max-width:1000px){.settingsGrid{grid-template-columns:1fr}.resetChecklist{grid-template-columns:1fr}}
+
+/* Correctif navigation retour — visible sur toutes les pages secondaires */
+.returnBar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 0 18px;
+  min-height:46px;
+}
+.returnButton{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.92);
+  color:var(--night);
+  border-radius:999px;
+  padding:10px 14px;
+  font-weight:950;
+  box-shadow:var(--shadow-soft);
+  white-space:nowrap;
+}
+.returnButton:hover{background:var(--surface-soft);transform:translateY(-1px)}
+.returnContext{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  color:var(--muted);
+  font-size:13px;
+}
+.returnContext strong{
+  color:var(--night);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+@media(max-width:700px){
+  .returnBar{
+    position:sticky;
+    top:0;
+    z-index:30;
+    margin:-14px -14px 16px;
+    padding:10px 14px;
+    background:rgba(248,250,247,.94);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .returnContext{display:none}
+  .returnButton{padding:9px 13px;box-shadow:none}
+}

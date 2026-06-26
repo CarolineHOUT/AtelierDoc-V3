@@ -9,6 +9,39 @@ const root = `atelierdocV2/workshops/${WORKSHOP_ID}`;
 const now = () => new Date().toLocaleString("fr-FR");
 const clone = x => JSON.parse(JSON.stringify(x));
 
+function stripWorkshopContributions(workshop, title) {
+  const copy = clone(workshop);
+  copy.meta = {
+    ...(copy.meta || {}),
+    title: title || `${copy.meta?.title || "Atelier"} - copie`,
+    status: "draft",
+    activeDocumentId: "",
+    createdAt: now(),
+    closedAt: ""
+  };
+
+  copy.participants = {};
+  copy.votes = {};
+  copy.comments = {};
+  copy.parking = {};
+  copy.activity = {};
+
+  const docs = Object.values(copy.documents || {})
+    .sort((a, b) => (a.order || 0) - (b.order || 0))
+    .map((doc, index) => ({
+      ...doc,
+      decision: "",
+      justification: "",
+      decidedAt: "",
+      order: index + 1,
+      duplicatedAt: now()
+    }));
+
+  copy.documents = Object.fromEntries(docs.map(doc => [doc.id, doc]));
+  copy.meta.activeDocumentId = docs[0]?.id || "";
+  return copy;
+}
+
 export function useAtelier() {
   const [state, setState] = useState(null);
   const [ready, setReady] = useState(false);
@@ -76,6 +109,7 @@ export function useAtelier() {
           createdAt:now()
         };
         await set(r, payload);
+        if (!state?.meta?.activeDocumentId) await update(ref(db, `${root}/meta`), { activeDocumentId:r.key });
         await log("document", `Document ajouté : ${payload.name}`);
       },
 
@@ -102,12 +136,65 @@ export function useAtelier() {
         await log("reset", "Participants et contributions réinitialisés");
       },
 
+      async resetWorkshop(options = {}) {
+        const { votes, comments, participants, parking, ranking, classification, decisions, documents, all } = options;
+
+        if (all || votes) await set(ref(db, `${root}/votes`), {});
+        if (all || comments) await set(ref(db, `${root}/comments`), {});
+        if (all || participants) await set(ref(db, `${root}/participants`), {});
+        if (all || parking) await set(ref(db, `${root}/parking`), {});
+
+        const currentDocs = Object.values(state?.documents || {}).sort((a, b) => (a.order || 0) - (b.order || 0));
+
+        if (all || documents) {
+          await set(ref(db, `${root}/documents`), {});
+          await update(ref(db, `${root}/meta`), { activeDocumentId:"", status:"draft" });
+        } else if (currentDocs.length && (ranking || classification || decisions)) {
+          const patch = {};
+          currentDocs.forEach((doc, index) => {
+            if (ranking) patch[`documents/${doc.id}/order`] = index + 1;
+            if (classification) {
+              patch[`documents/${doc.id}/classificationCode`] = "";
+              patch[`documents/${doc.id}/classificationPath`] = "";
+              patch[`documents/${doc.id}/classificationFolderId`] = "";
+            }
+            if (decisions) {
+              patch[`documents/${doc.id}/decision`] = "";
+              patch[`documents/${doc.id}/justification`] = "";
+              patch[`documents/${doc.id}/decidedAt`] = "";
+            }
+          });
+          await update(ref(db, root), patch);
+        }
+
+        const labels = [];
+        if (all) labels.push("atelier complet");
+        else {
+          if (votes) labels.push("votes");
+          if (comments) labels.push("commentaires");
+          if (participants) labels.push("participants");
+          if (parking) labels.push("parking");
+          if (ranking) labels.push("ordre/classement");
+          if (classification) labels.push("plan de classement");
+          if (decisions) labels.push("décisions");
+          if (documents) labels.push("documents");
+        }
+        await log("reset", `Réinitialisation : ${labels.join(", ") || "aucune sélection"}`);
+      },
+
+      async duplicateWorkshop(title) {
+        const next = stripWorkshopContributions(state || seed, title);
+        await set(ref(db, root), next);
+        const r = push(ref(db, `${root}/activity`));
+        await set(r, { id:r.key, type:"duplicate", text:"Atelier dupliqué en copie de travail", detail:next.meta.title, at:now() });
+      },
+
       async close() {
         await update(ref(db, `${root}/meta`), { status:"closed", closedAt:now() });
         await log("close", "Atelier clôturé");
       }
     };
-  }, []);
+  }, [state]);
 
   return { state, ready, api };
 }
